@@ -1,0 +1,38 @@
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - jenkins
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - jenkins
+
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  jenkins_home:
