@@ -1,0 +1,57 @@
+# Ambiente virtual
+venv/
+
+# Arquivos de cache Python
+__pycache__/
+*.pyc
+
+# Arquivos de ambiente
+.env
+
+# Logs
+*.log
+
+# Arquivos de configuração local
+config.local.yaml
+
+# Arquivos de build
+build/
+dist/
+
+# Arquivos de IDE/editores
+.vscode/
+.idea/
+*.swp
+
+# Arquivos temporários
+*.tmp
+
+# Arquivos de banco de dados local
+*.db
+*.sqlite
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de Docker
+*.env
+.dockerignore
+
+# Arquivos de Kubernetes
+kubeconfig
+
+# Arquivos de segredos
+*.pem
+*.key
+
+# Arquivos de métricas e monitoramento
+prometheus_data/
+grafana_data/
+
+# Incluir .gitignore do frontend
+frontend/.gitignore
+
+# Ignorar node_modules em qualquer subdiretório
+**/node_modules/
+
