@@ -1,8 +1,12 @@
-FROM python:3.8-slim
+   FROM python:3.9-slim
 
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
+   RUN apt-get update && apt-get install -y default-libmysqlclient-dev build-essential
 
-CMD ["python", "app.py"]
+   WORKDIR /app
+
+   COPY requirements.txt .
+   RUN pip install --no-cache-dir -r requirements.txt
+
+   COPY . .
+
+   CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
