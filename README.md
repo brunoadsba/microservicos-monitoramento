@@ -3,6 +3,8 @@
 ![Status do Projeto](https://img.shields.io/badge/status-em%20desenvolvimento-brightgreen)
 ![Licença](https://img.shields.io/badge/licença-MIT-blue)
 
+![Blog Banner](https://github.com/brunoadsba/microservicos-monitoramento/blob/main/assets/blog-banner.png)
+
 ## 📊 Visão Geral
 
 Este projeto implementa uma arquitetura de microserviços com foco em monitoramento e observabilidade. Ele demonstra boas práticas de desenvolvimento, deployment e operação de sistemas distribuídos modernos.
@@ -12,7 +14,6 @@ Este projeto implementa uma arquitetura de microserviços com foco em monitorame
 - **Backend**: API RESTful desenvolvida com Flask
 - **Frontend**: Interface de usuário em React
 - **Gateway**: API Gateway utilizando Express.js
-- **Monitoramento**: Stack de observabilidade (em implementação)
 
 ## 🛠 Tecnologias Utilizadas
 
@@ -20,10 +21,6 @@ Este projeto implementa uma arquitetura de microserviços com foco em monitorame
 - JavaScript/TypeScript (React, Express)
 - Docker
 - Kubernetes
-- Prometheus & Grafana (planejado)
-
-## 🏗 Arquitetura
-
 
 ## 🚦 Pré-requisitos
 

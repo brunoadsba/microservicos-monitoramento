@@ -3,7 +3,7 @@ const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001; // Altere para 3001
 
 // Configuração do middleware de proxy
 app.use('/api', createProxyMiddleware({

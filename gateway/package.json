@@ -4,7 +4,7 @@
   "description": "API Gateway para o projeto de microserviços",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "REACT_APP_USE_POSIX_PATHS=true react-scripts start"
   },
   "dependencies": {
     "express": "^4.17.1",

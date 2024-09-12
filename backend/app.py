@@ -1,22 +1,27 @@
 import os
-from dotenv import load_dotenv  # Adicione esta linha
+from dotenv import load_dotenv  
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import logging
 from datetime import datetime
 
-load_dotenv()  # Adicione esta linha
+load_dotenv()  
 
 app = Flask(__name__)
+CORS(app)  # Adicione esta linha para permitir CORS
 
-# Configuração de logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
-# Usando uma lista em memória para armazenar os posts
+
 posts = []
+
+@app.route('/')
+def home():
+    return "Bem-vindo à API de Posts!"
 
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
@@ -34,17 +39,15 @@ def get_post(post_id):
 @app.route('/api/posts', methods=['POST'])
 def create_post():
     logger.info("Requisição POST recebida em /api/posts")
-    data = request.json
-    new_post = {
+    data = request.get_json()
+    post = {
         'id': len(posts),
         'title': data['title'],
         'content': data['content'],
-        'date': datetime.utcnow().isoformat(),
-        'tags': data.get('tags', [])
+        'created_at': datetime.now().isoformat()
     }
-    posts.append(new_post)
-    logger.info(f"Novo post criado: {new_post['id']}")
-    return jsonify(new_post), 201
+    posts.append(post)
+    return jsonify(post), 201
 
 @app.route('/health', methods=['GET'])
 def health_check():
