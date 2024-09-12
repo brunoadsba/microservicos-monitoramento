@@ -8,7 +8,7 @@ from datetime import datetime
 load_dotenv()  
 
 app = Flask(__name__)
-CORS(app)  # Adicione esta linha para permitir CORS
+CORS(app)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -16,12 +16,25 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-
 posts = []
+users = {"developer": "password"}  # Usuário e senha de exemplo
 
 @app.route('/')
 def home():
     return "Bem-vindo à API de Posts!"
+
+@app.route('/login', methods=['POST'])
+def login():
+    logger.info("Login request received")
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    if users.get(username) == password:
+        logger.info("Login successful")
+        return jsonify({"token": "valid-token"}), 200
+    else:
+        logger.info("Login failed")
+        return jsonify({"error": "Invalid credentials"}), 401
 
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
@@ -55,4 +68,4 @@ def health_check():
     return jsonify({"status": "healthy"}), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
