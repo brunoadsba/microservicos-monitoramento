@@ -7,6 +7,10 @@ __pycache__/
 
 # Arquivos de ambiente
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Logs
 *.log
@@ -54,4 +58,13 @@ frontend/.gitignore
 
 # Ignorar node_modules em qualquer subdiretório
 **/node_modules/
+
+# Arquivos de cache do npm
+.npm
+
+# Arquivos de cobertura de testes
+coverage/
+
+# Arquivos de backup
+*.bak
 

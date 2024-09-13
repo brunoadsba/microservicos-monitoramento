@@ -1,14 +1,18 @@
 import os
-from dotenv import load_dotenv  
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
+from marshmallow import Schema, fields, validate
 
-load_dotenv()  
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+jwt = JWTManager(app)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -16,9 +20,16 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-posts = []
-users = {"developer": "sua_senha"}  # Usuário e senha de exemplo
+ADMIN_USERNAME = os.getenv('ADMIN_USERNAME')
+ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
 
+class PostSchema(Schema):
+    title = fields.Str(required=True, validate=validate.Length(min=1, max=100))
+    content = fields.Str(required=True, validate=validate.Length(min=1, max=1000))
+
+post_schema = PostSchema()
+
+posts = []
 @app.route('/')
 def home():
     return "Bem-vindo à API de Posts!"
@@ -29,9 +40,10 @@ def login_api():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
-    if users.get(username) == password:
+    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+        access_token = create_access_token(identity=username, expires_delta=timedelta(days=1))
         logger.info("Login successful")
-        return jsonify({"token": "valid-token"}), 200
+        return jsonify(access_token=access_token), 200
     else:
         logger.info("Login failed")
         return jsonify({"error": "Invalid credentials"}), 401
@@ -39,7 +51,11 @@ def login_api():
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
     logger.info("Requisição GET recebida em /api/posts")
-    return jsonify({'posts': posts})
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 10))
+    start = (page - 1) * per_page
+    end = start + per_page
+    return jsonify({'posts': posts[start:end], 'total': len(posts)}), 200
 
 @app.route('/api/posts/<int:post_id>', methods=['GET'])
 def get_post(post_id):
@@ -50,6 +66,7 @@ def get_post(post_id):
         return jsonify({"error": "Post não encontrado"}), 404
 
 @app.route('/api/posts', methods=['POST'])
+@jwt_required()
 def create_post():
     logger.info("Requisição POST recebida em /api/posts")
     data = request.get_json()

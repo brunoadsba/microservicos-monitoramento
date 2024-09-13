@@ -11,7 +11,7 @@ app.use('/api', createProxyMiddleware({
   changeOrigin: true,
 }));
 
-const PORT = 3002;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Gateway running on port ${PORT}`);
 });
