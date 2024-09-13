@@ -54,7 +54,7 @@ services:
     image: prom/prometheus
     container_name: prometheus
     volumes:
-      - ./k8s/monitoring/prometheus-config-updated.yaml:/etc/prometheus/prometheus.yml
+      - ./k8s/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
 

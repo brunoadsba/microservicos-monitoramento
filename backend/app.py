@@ -8,7 +8,7 @@ from datetime import datetime
 load_dotenv()  
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -62,9 +62,8 @@ def create_post():
     posts.append(post)
     return jsonify(post), 201
 
-@app.route('/health', methods=['GET'])
+@app.route('/api/health')
 def health_check():
-    logger.info("Health check realizado")
     return jsonify({"status": "healthy"}), 200
 
 if __name__ == '__main__':

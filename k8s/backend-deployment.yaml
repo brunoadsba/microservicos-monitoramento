@@ -11,14 +11,11 @@ spec:
     metadata:
       labels:
         app: backend
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "5000"
     spec:
       containers:
       - name: backend
-        image: backend:latest
-        imagePullPolicy: Always  # ou Never, dependendo do seu ambiente
+        image: brunoadsba/microservicos-monitoramento-backend:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
 ---
